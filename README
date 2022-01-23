@@ -1,0 +1,10 @@
+Dicebot Gatherer v2
+
+Items used
+- Raspberry Pi
+- Raspberry Pi DC Motor hat - https://www.amazon.com/gp/product/B08CD9THP4/ref=ppx_yo_dt_b_asin_title_o02_s01?ie=UTF8&psc=1
+- DC Motor - https://www.amazon.com/gp/product/B0745VWJ54/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1
+
+Wire the DC Motor to motor channel 2 on the hat (channel 1 was defective on the hat I received, and the pins are hardcoded for channel 2 in this script)
+Power the DC Motor.  I used a variable power supply set to 24v
+Run the script
