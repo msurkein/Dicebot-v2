@@ -1,9 +1,14 @@
+import gphoto2 as gp
 import random
 import time
-import socket
-import gphoto2 as gp
+
 camera = gp.Camera()
-camera.init()
+try:
+    camera.init()
+except gp.GPhoto2Error as gp:
+    print("Failed to initialize camera.  Continuing without.\n{}".format(gp))
+    camera = None
+
 from gpiozero import PhaseEnableMotor
 import requests
 
@@ -30,10 +35,11 @@ for trial in range(1, trial_count):
     time.sleep(sleep_time * 2)
     print("Getting URL")
     print('Capturing image')
-    file_path = camera.capture(gp.GP_CAPTURE_IMAGE)
-    print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
-    camera_file = camera.file_get(file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL)
-    camera_file.save("/tmp/test.jpg")
+    if camera is not None:
+        file_path = camera.capture(gp.GP_CAPTURE_IMAGE)
+        print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
+        camera_file = camera.file_get(file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL)
+        camera_file.save("/tmp/test.jpg")
     with open("/tmp/test.jpg", "rb") as tjp:
         z = requests.post("http://192.168.1.248:8000", tjp.read())
     print(z.text)
